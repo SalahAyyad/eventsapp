@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:ecom/core/utlis/app_colors.dart';
 import 'package:ecom/core/widget/custom_text_field.dart';
 import 'package:ecom/core/widget/tab_event_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:date_picker_plus/date_picker_plus.dart';
+import 'package:intl/intl.dart';
 
 class AddEvent extends StatefulWidget {
   const AddEvent({super.key});
@@ -13,6 +17,10 @@ class AddEvent extends StatefulWidget {
 
 class _AddEventState extends State<AddEvent> {
   int selecteddIndex = 0;
+  DateTime? selectedDate = DateTime.now();
+  TimeOfDay? selectedTime = TimeOfDay.now();
+  var eventNameController = TextEditingController();
+   var eventdescriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     List<String> eventNameList = [
@@ -99,6 +107,7 @@ class _AddEventState extends State<AddEvent> {
           ),
           SizedBox(height: 20),
           CustomTextField(
+            controller: eventNameController,
             color: AppColors.greyColor,
             prefixIcon: Icon(
               Icons.edit_note,
@@ -109,6 +118,7 @@ class _AddEventState extends State<AddEvent> {
             height: 20,
           ),
           CustomTextField(
+            controller: eventdescriptionController,
             maxLines: 5,
             color: AppColors.greyColor,
             hintText: "Event Description",
@@ -133,7 +143,16 @@ class _AddEventState extends State<AddEvent> {
             ),
             Spacer(),
             TextButton(
-                onPressed: () {},
+                onPressed: ()async {
+                 
+                 selectedDate = await showDatePicker(context: context, firstDate: DateTime.now(),
+                   lastDate: DateTime(2030) );
+                   log(selectedDate.toString());
+
+
+
+
+                },
                 child: Text(
                   AppLocalizations.of(context)!.choosedate,
                   style: TextStyle(fontSize: 18),
@@ -156,7 +175,16 @@ class _AddEventState extends State<AddEvent> {
             ),
             Spacer(),
             TextButton(
-                onPressed: () {},
+                onPressed: () async {
+
+                 selectedTime = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+
+                   log(selectedTime.toString());
+                   log("hhhhhhhhhhhhhhhhhhhh");
+                   
+                },
+
+                
                 child: Text(
                   AppLocalizations.of(context)!.choosetime,
                   style: TextStyle(fontSize: 18),

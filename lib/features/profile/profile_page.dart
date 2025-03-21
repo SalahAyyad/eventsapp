@@ -20,6 +20,7 @@ class ProfilePage extends StatelessWidget {
           children: [
             Text(AppLocalizations.of(context)!.lg),
             DropdownButton(
+              
               value: languageprovider.appLanguage,
               isExpanded: true,
               items: [

@@ -16,6 +16,7 @@ class FavoriteTab extends StatelessWidget {
         child: Column(
           children: [
             CustomTextField(
+              controller: null,
               color: AppColors.primaryLight,
               hintText: AppLocalizations.of(context)!.search,
               hintStyle: TextStyle(

@@ -5,11 +5,21 @@ import 'package:ecom/core/providers/app_theme_provider.dart';
 import 'package:ecom/core/utlis/app_theme.dart';
 import 'package:ecom/features/addevent/add_event.dart';
 import 'package:ecom/features/home/home_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+
+  //WidgetsFlutterBinding.ensureInitialized();
+  //await Firebase.initializeApp(
+   // options: DefaultFirebaseOptions.currentPlatform,
+ // );
+ 
+
+  
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -25,6 +35,7 @@ void main() {
 
 class MainApp extends StatelessWidget {
   MainApp({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +44,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       themeMode: themeprovider.AppTheme,
+    
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       localizationsDelegates: AppLocalizations.localizationsDelegates,

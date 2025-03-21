@@ -1,4 +1,5 @@
 import 'package:ecom/core/utlis/app_colors.dart';
+import 'package:ecom/core/widget/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
 class EventItemWidget extends StatelessWidget {
@@ -19,19 +20,60 @@ class EventItemWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: AppColors.whiteColor),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: AppColors.whiteColor),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('22',style: TextStyle(color: AppColors.primaryLight,fontSize: 20,fontWeight: FontWeight.bold),),
-                    Text('Feb.',style: TextStyle(color: AppColors.primaryLight,fontSize: 20,fontWeight: FontWeight.bold),)
-                  
-                ]),
-          )
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '22',
+                        style: TextStyle(
+                            color: AppColors.primaryLight,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        'Feb.',
+                        style: TextStyle(
+                            color: AppColors.primaryLight,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ]),
+              )
+            ],
+          ),
+          Spacer(),
+          Row(children: [
+            Container(
+              
+              width: 300,
+              height: 50,
+              decoration: BoxDecoration(
+               color: AppColors.whiteColor,
+                borderRadius: BorderRadius.circular(10),
+              
+              ),
+                child: CustomTextField(
+                  controller: null,
+                  readonly: true,
+            
+              maxLines: 1,
+              color: AppColors.whiteColor,
+            )),Spacer(),
+            IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.favorite,
+                  color: AppColors.whiteColor,
+                ))
+          ])
         ],
       ),
     );

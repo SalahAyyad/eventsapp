@@ -26,7 +26,8 @@ class _HomeTabState extends State<HomeTab> {
     ];
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.primaryLight,
+        
+        backgroundColor:Theme.of(context).appBarTheme.backgroundColor,
         title: Row(
           children: [
             Column(
@@ -82,7 +83,7 @@ class _HomeTabState extends State<HomeTab> {
           ),
           height: 140,
           decoration: BoxDecoration(
-              color: AppColors.primaryLight,
+              color: Theme.of(context).appBarTheme.backgroundColor,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40),
                 bottomRight: Radius.circular(40),

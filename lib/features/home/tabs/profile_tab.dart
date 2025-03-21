@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+
 class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
 
@@ -13,13 +14,14 @@ class ProfileTab extends StatelessWidget {
     var languageprovider = Provider.of<AppLanguageProvider>(context);
     var themeprovider = Provider.of<AppThemeProvider>(context);
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         toolbarHeight: 200,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(50),
         )),
-        backgroundColor: AppColors.primaryLight,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         title: Row(
           children: [
             SizedBox(
@@ -62,17 +64,20 @@ class ProfileTab extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 40),
-            DropdownButton(
-              value: languageprovider.appLanguage,
-              isExpanded: true,
-              items: [
-                DropdownMenuItem(value: 'en', child: Text('English')),
-                DropdownMenuItem(value: 'ar', child: Text('العربية'))
-              ],
-              onChanged: (value) {
-                languageprovider.changeLanguage(value.toString());
-              },
-            ),
+            Stack(
+              children:[ DropdownButton(
+                value: languageprovider.appLanguage,
+                isExpanded: true,
+                items: [
+                  DropdownMenuItem(value: 'en', child: Text('English')),
+                  DropdownMenuItem(value: 'ar', child: Text('العربية'))
+                ],
+                onChanged: (value) {
+                  languageprovider.changeLanguage(value.toString());
+                },
+              ),
+              Positioned(top :-20,child: Container())
+            ]),
             SizedBox(height: 40),
             Text(
               AppLocalizations.of(context)!.theme,
