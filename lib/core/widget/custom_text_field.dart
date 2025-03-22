@@ -18,6 +18,7 @@ class CustomTextField extends StatelessWidget {
     this.maxLines,
     this.readonly,
     required this.controller,
+    this.validator,
   });
   Color? color;
   String? hintText;
@@ -30,6 +31,7 @@ class CustomTextField extends StatelessWidget {
   int? maxLines;
   bool? readonly ;
   dynamic controller;
+  String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +59,7 @@ class CustomTextField extends StatelessWidget {
         
       ),
       maxLines: maxLines, 
+      validator: validator,
     );
   }
 }

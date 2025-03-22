@@ -21,6 +21,7 @@ class _AddEventState extends State<AddEvent> {
   TimeOfDay? selectedTime = TimeOfDay.now();
   var eventNameController = TextEditingController();
    var eventdescriptionController = TextEditingController();
+   final globalFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     List<String> eventNameList = [
@@ -52,213 +53,236 @@ class _AddEventState extends State<AddEvent> {
               fontWeight: FontWeight.bold),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          Container(
-            height: 200,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(
-                image: AssetImage('assets/images/birthday.png'),
-                fit: BoxFit.fill,
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          DefaultTabController(
-            length: eventNameList.length,
-            child: TabBar(
-              onTap: (index) {
-                setState(() {
-                  selecteddIndex = index;
-                });
-              },
-              padding: EdgeInsets.all(10),
-              indicatorColor: AppColors.transparentColor,
-              dividerColor: AppColors.transparentColor,
-              isScrollable: true,
-              labelPadding: EdgeInsets.symmetric(horizontal: 10),
-              tabAlignment: TabAlignment.start,
-              tabs: eventNameList.map((eventname) {
-                return Tabeeventwidget(
-                  eventname: eventname,
-                  isSelected:
-                      selecteddIndex == eventNameList.indexOf(eventname),
-                  isInCreate: true,
-                );
-              }).toList(),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              AppLocalizations.of(context)!.eventname,
-              style: TextStyle(
-                  color: AppColors.blackColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(height: 20),
-          CustomTextField(
-            controller: eventNameController,
-            color: AppColors.greyColor,
-            prefixIcon: Icon(
-              Icons.edit_note,
-            ),
-            hintText: "Event Title",
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          CustomTextField(
-            controller: eventdescriptionController,
-            maxLines: 5,
-            color: AppColors.greyColor,
-            hintText: "Event Description",
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(children: [
-            Icon(
-              Icons.calendar_month,
-              color: AppColors.blackColor,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              AppLocalizations.of(context)!.eventdate,
-              style: TextStyle(
-                  color: AppColors.blackColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
-            Spacer(),
-            TextButton(
-                onPressed: ()async {
-                 
-                 selectedDate = await showDatePicker(context: context, firstDate: DateTime.now(),
-                   lastDate: DateTime(2030) );
-                   log(selectedDate.toString());
-
-
-
-
-                },
-                child: Text(
-                  AppLocalizations.of(context)!.choosedate,
-                  style: TextStyle(fontSize: 18),
-                ))
-          ]),
-          Row(children: [
-            Icon(
-              Icons.watch_later_outlined,
-              color: AppColors.blackColor,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              AppLocalizations.of(context)!.eventtime,
-              style: TextStyle(
-                  color: AppColors.blackColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
-            Spacer(),
-            TextButton(
-                onPressed: () async {
-
-                 selectedTime = await showTimePicker(context: context, initialTime: TimeOfDay.now());
-
-                   log(selectedTime.toString());
-                   log("hhhhhhhhhhhhhhhhhhhh");
-                   
-                },
-
-                
-                child: Text(
-                  AppLocalizations.of(context)!.choosetime,
-                  style: TextStyle(fontSize: 18),
-                ))
-          ]),
-          SizedBox(
-            height: 10,
-          ),
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              height: 75,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppColors.primaryLight, width: 2),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColors.primaryLight,
-                      ),
-                      child: Icon(
-                        Icons.gps_fixed,
-                        color: AppColors.whiteColor,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      AppLocalizations.of(context)!.chooselocation,
-                      style: TextStyle(
-                          color: AppColors.primaryLight,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Spacer(),
-                    IconButton(onPressed:(){},
-                      icon : Icon(
-                        Icons.arrow_forward_ios,
-                      ),
-                      color: AppColors.primaryLight, 
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),SizedBox(height: 20,),
-          SizedBox(
-            width: double.infinity,
-            height: 60,
-            child: ElevatedButton(
-            
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryLight,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: globalFormKey,
+            child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Container(
+                height: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/birthday.png'),
+                    fit: BoxFit.fill,
                   ),
-            
                 ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              DefaultTabController(
+                length: eventNameList.length,
+                child: TabBar(
+                  onTap: (index) {
+                    setState(() {
+                      selecteddIndex = index;
+                    });
+                  },
+                  padding: EdgeInsets.all(10),
+                  indicatorColor: AppColors.transparentColor,
+                  dividerColor: AppColors.transparentColor,
+                  isScrollable: true,
+                  labelPadding: EdgeInsets.symmetric(horizontal: 10),
+                  tabAlignment: TabAlignment.start,
+                  tabs: eventNameList.map((eventname) {
+                    return Tabeeventwidget(
+                      eventname: eventname,
+                      isSelected:
+                          selecteddIndex == eventNameList.indexOf(eventname),
+                      isInCreate: true,
+                    );
+                  }).toList(),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Align(
+                alignment: Alignment.topLeft,
                 child: Text(
-                  AppLocalizations.of(context)!.createevent,
-                  style: TextStyle(color: AppColors.whiteColor),
-                )),
-          )
-        ]),
+                  AppLocalizations.of(context)!.eventname,
+                  style: TextStyle(
+                      color: AppColors.blackColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(height: 20),
+              CustomTextField(
+                validator : (value){
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter event title';
+                  }
+                  
+                },
+                controller: eventNameController,
+                color: AppColors.greyColor,
+                prefixIcon: Icon(
+                  Icons.edit_note,
+                ),
+                hintText: "Event Title",
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              CustomTextField(
+                validator : (value){
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter event description';
+                  }
+                  
+                },
+                controller: eventdescriptionController,
+                maxLines: 5,
+                color: AppColors.greyColor,
+                hintText: "Event Description",
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(children: [
+                Icon(
+                  Icons.calendar_month,
+                  color: AppColors.blackColor,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  AppLocalizations.of(context)!.eventdate,
+                  style: TextStyle(
+                      color: AppColors.blackColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+                Spacer(),
+                TextButton(
+                    onPressed: ()async {
+                     
+                     selectedDate = await showDatePicker(context: context, firstDate: DateTime.now(),
+                       lastDate: DateTime(2030) );
+                       log(selectedDate.toString());
+            
+            
+            
+            
+                    },
+                    child: Text(
+                      AppLocalizations.of(context)!.choosedate,
+                      style: TextStyle(fontSize: 18),
+                    ))
+              ]),
+              Row(children: [
+                Icon(
+                  Icons.watch_later_outlined,
+                  color: AppColors.blackColor,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  AppLocalizations.of(context)!.eventtime,
+                  style: TextStyle(
+                      color: AppColors.blackColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+                Spacer(),
+                TextButton(
+                    onPressed: () async {
+            
+                     selectedTime = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+            
+                       log(selectedTime.toString());
+                       log("hhhhhhhhhhhhhhhhhhhh");
+                       
+                    },
+            
+                    
+                    child: Text(
+                      AppLocalizations.of(context)!.choosetime,
+                      style: TextStyle(fontSize: 18),
+                    ))
+              ]),
+              SizedBox(
+                height: 10,
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  height: 75,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: AppColors.primaryLight, width: 2),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColors.primaryLight,
+                          ),
+                          child: Icon(
+                            Icons.gps_fixed,
+                            color: AppColors.whiteColor,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          AppLocalizations.of(context)!.chooselocation,
+                          style: TextStyle(
+                              color: AppColors.primaryLight,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Spacer(),
+                        IconButton(onPressed:(){},
+                          icon : Icon(
+                            Icons.arrow_forward_ios,
+                          ),
+                          color: AppColors.primaryLight, 
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),SizedBox(height: 20,),
+              SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: ElevatedButton(
+                
+                    onPressed: () {
+                      if (globalFormKey.currentState!.validate()) {
+        
+        
+                        
+                    }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryLight,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        
+                      ),
+                
+                    ),
+                    child: Text(
+                      AppLocalizations.of(context)!.createevent,
+                      style: TextStyle(color: AppColors.whiteColor),
+                    )),
+              )
+            ]),
+          ),
+        ),
       ),
     );
   }
