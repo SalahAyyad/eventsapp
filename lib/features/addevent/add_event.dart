@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:ecom/core/models/event_modle.dart';
 import 'package:ecom/core/utlis/app_colors.dart';
+import 'package:ecom/core/utlis/firebase_ults.dart';
 import 'package:ecom/core/widget/custom_text_field.dart';
 import 'package:ecom/core/widget/tab_event_widget.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,7 @@ class _AddEventState extends State<AddEvent> {
   var eventNameController = TextEditingController();
   var eventdescriptionController = TextEditingController();
   final globalFormKey = GlobalKey<FormState>();
+  String selectedEvent = '';
   @override
   Widget build(BuildContext context) {
     List<String> eventNameList = [
@@ -78,6 +81,7 @@ class _AddEventState extends State<AddEvent> {
                       onTap: (index) {
                         setState(() {
                           selecteddIndex = index;
+                          selectedEvent = eventNameList[index];
                         });
                       },
                       padding: EdgeInsets.all(10),
@@ -259,7 +263,10 @@ class _AddEventState extends State<AddEvent> {
                     height: 60,
                     child: ElevatedButton(
                         onPressed: () {
-                          if (globalFormKey.currentState!.validate()) {}
+                          if (globalFormKey.currentState!.validate()) {
+                            addEvents();
+                            Navigator.pushReplacementNamed(context, '/');
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryLight,
@@ -277,5 +284,20 @@ class _AddEventState extends State<AddEvent> {
         ),
       ),
     );
+  }
+
+  Future<void> addEvents() async {
+    var event = EventModel(
+        title: eventNameController.text,
+        description: eventdescriptionController.text,
+        dateTime: selectedDate!,
+        time: selectedTime!.format(context),
+        category: selectedEvent);
+
+    try {
+      await FirebaseUlts.addEventToFirebase(event);
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }

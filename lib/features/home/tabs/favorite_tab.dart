@@ -4,15 +4,14 @@ import 'package:ecom/core/widget/event_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class FavoriteTab extends StatelessWidget {
-  const FavoriteTab({super.key});
-
+class favoriteTab extends StatelessWidget {
+  favoriteTab({super.key});
+  List eventslist = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
       body: Padding(
-        padding:  EdgeInsets.fromLTRB(16, 80, 16, 0),
+        padding: EdgeInsets.fromLTRB(16, 80, 16, 0),
         child: Column(
           children: [
             CustomTextField(
@@ -28,7 +27,10 @@ class FavoriteTab extends StatelessWidget {
               child: ListView.builder(
                 itemCount: 10,
                 itemBuilder: (_, index) {
-                  return EventItemWidget();
+                  //eventslist here is empty
+                  return EventItemWidget(
+                    event: eventslist[index],
+                  );
                 },
               ),
             )

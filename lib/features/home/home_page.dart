@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     final List<Widget> tabs = [
       HomeTab(),
       MapTab(),
-      FavoriteTab(),
+      favoriteTab(),
       ProfileTab(),
     ];
 
@@ -28,8 +28,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-
-          Navigator.pushNamed(context, '/add_event');
+          Navigator.pushReplacementNamed(context, '/add_event');
         },
         shape: RoundedRectangleBorder(
             side: BorderSide(width: 3, color: Colors.white),

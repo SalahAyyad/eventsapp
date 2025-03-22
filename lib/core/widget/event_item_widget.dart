@@ -1,9 +1,13 @@
+import 'package:ecom/core/models/event_modle.dart';
 import 'package:ecom/core/utlis/app_colors.dart';
-import 'package:ecom/core/widget/custom_text_field.dart';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class EventItemWidget extends StatelessWidget {
-  const EventItemWidget({super.key});
+  final EventModel event;
+
+  const EventItemWidget({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +36,14 @@ class EventItemWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '22',
+                        event.dateTime.day.toString(),
                         style: TextStyle(
                             color: AppColors.primaryLight,
                             fontSize: 20,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        'Feb.',
+                        DateFormat('MMM').format(event.dateTime),
                         style: TextStyle(
                             color: AppColors.primaryLight,
                             fontSize: 20,
@@ -52,21 +56,17 @@ class EventItemWidget extends StatelessWidget {
           Spacer(),
           Row(children: [
             Container(
-              
               width: 300,
               height: 50,
               decoration: BoxDecoration(
-               color: AppColors.whiteColor,
+                color: AppColors.whiteColor,
                 borderRadius: BorderRadius.circular(10),
-              
               ),
-                child: CustomTextField(
-                  controller: null,
-                  readonly: true,
-            
-              maxLines: 1,
-              color: AppColors.whiteColor,
-            )),Spacer(),
+              child: Text(
+                event.title,
+              ),
+            ),
+            Spacer(),
             IconButton(
                 onPressed: () {},
                 icon: Icon(

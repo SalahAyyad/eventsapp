@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "792551390640",
+    "project_id": "eventapp-404c3",
+    "storage_bucket": "eventapp-404c3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792551390640:android:186b8e70f96ea515786a75",
+        "android_client_info": {
+          "package_name": "com.example.ecom"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC75BGphiAmZavy2zo52xUfSvAzzVHDQFs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
