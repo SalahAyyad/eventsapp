@@ -35,7 +35,7 @@ class _HomeTabState extends State<HomeTab> {
   }
 
   void getFliterEvents(String fliterEvent) async {
-    Query<EventModel> query = await FirebaseUlts.getEventCollection();
+    Query<EventModel> query = FirebaseUlts.getEventCollection();
     if (fliterEvent != "All") {
       query = query.where('category', isEqualTo: fliterEvent);
     }

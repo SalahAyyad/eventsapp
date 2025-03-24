@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     final List<Widget> tabs = [
       HomeTab(),
       MapTab(),
-      favoriteTab(),
+      FavoriteTab(),
       ProfileTab(),
     ];
 

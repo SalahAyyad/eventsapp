@@ -1,14 +1,19 @@
 import 'package:ecom/core/models/event_modle.dart';
 import 'package:ecom/core/utlis/app_colors.dart';
-
+import 'package:ecom/core/utlis/firebase_ults.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class EventItemWidget extends StatelessWidget {
+class EventItemWidget extends StatefulWidget {
   final EventModel event;
 
   const EventItemWidget({super.key, required this.event});
 
+  @override
+  State<EventItemWidget> createState() => _EventItemWidgetState();
+}
+
+class _EventItemWidgetState extends State<EventItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,14 +41,14 @@ class EventItemWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        event.dateTime.day.toString(),
+                        widget.event.dateTime.day.toString(),
                         style: TextStyle(
                             color: AppColors.primaryLight,
                             fontSize: 20,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        DateFormat('MMM').format(event.dateTime),
+                        DateFormat('MMM').format(widget.event.dateTime),
                         style: TextStyle(
                             color: AppColors.primaryLight,
                             fontSize: 20,
@@ -63,14 +68,24 @@ class EventItemWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
-                event.title,
+                widget.event.title,
               ),
             ),
             Spacer(),
             IconButton(
-                onPressed: () {},
+                onPressed: () async {
+                  try {
+                    await FirebaseUlts.favoriteEvent(widget.event);
+                    widget.event.isFavorite = !widget.event.isFavorite;
+                    setState(() {});
+                  } catch (e) {
+                    print(e);
+                  }
+                },
                 icon: Icon(
-                  Icons.favorite,
+                  widget.event.isFavorite
+                      ? Icons.favorite
+                      : Icons.favorite_border,
                   color: AppColors.whiteColor,
                 ))
           ])

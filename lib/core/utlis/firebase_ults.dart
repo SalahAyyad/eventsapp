@@ -13,9 +13,15 @@ class FirebaseUlts {
   }
 
   static Future<void> addEventToFirebase(EventModel event) {
-    var CollectionRef = getEventCollection();
-    var docRef = CollectionRef.doc();
+    var collectionRef = getEventCollection();
+    var docRef = collectionRef.doc();
     event.id = docRef.id;
     return docRef.set(event);
+  }
+
+  static Future<void> favoriteEvent(EventModel event) async {
+    var collectionRef = getEventCollection();
+    var docRef = collectionRef.doc(event.id);
+    await docRef.update({'isFavorite': event.isFavorite ? false : true});
   }
 }
