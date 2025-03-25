@@ -170,6 +170,7 @@ class _HomeTabState extends State<HomeTab> {
                 itemBuilder: (_, index) {
                   return EventItemWidget(
                     event: eventsList[index],
+                    onEventUpdated: getAllEvents,
                   );
                 }))
       ]),

@@ -6,8 +6,9 @@ import 'package:intl/intl.dart';
 
 class EventItemWidget extends StatefulWidget {
   final EventModel event;
-
-  const EventItemWidget({super.key, required this.event});
+  final VoidCallback onEventUpdated;
+  const EventItemWidget(
+      {super.key, required this.event, required this.onEventUpdated});
 
   @override
   State<EventItemWidget> createState() => _EventItemWidgetState();
@@ -32,29 +33,44 @@ class _EventItemWidgetState extends State<EventItemWidget> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: AppColors.whiteColor),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.event.dateTime.day.toString(),
-                        style: TextStyle(
-                            color: AppColors.primaryLight,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        DateFormat('MMM').format(widget.event.dateTime),
-                        style: TextStyle(
-                            color: AppColors.primaryLight,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      )
-                    ]),
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: AppColors.whiteColor),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.event.dateTime.day.toString(),
+                            style: TextStyle(
+                                color: AppColors.primaryLight,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            DateFormat('MMM').format(widget.event.dateTime),
+                            style: TextStyle(
+                                color: AppColors.primaryLight,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ]),
+                  ),
+                  Spacer(),
+                  IconButton(
+                      onPressed: () async {
+                        await FirebaseUlts.deleteEvent(widget.event);
+                        widget.onEventUpdated();
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.delete,
+                        color: AppColors.whiteColor,
+                      ))
+                ],
               )
             ],
           ),
@@ -67,8 +83,10 @@ class _EventItemWidgetState extends State<EventItemWidget> {
                 color: AppColors.whiteColor,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Text(
-                widget.event.title,
+              child: Center(
+                child: Text(
+                  widget.event.title,
+                ),
               ),
             ),
             Spacer(),

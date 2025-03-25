@@ -31,6 +31,7 @@ class FavoriteTab extends StatelessWidget {
                   //eventslist here is empty
                   return EventItemWidget(
                     event: eventslist[index],
+                    onEventUpdated: () {},
                   );
                 },
               ),

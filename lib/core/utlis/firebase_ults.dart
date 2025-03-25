@@ -24,4 +24,10 @@ class FirebaseUlts {
     var docRef = collectionRef.doc(event.id);
     await docRef.update({'isFavorite': event.isFavorite ? false : true});
   }
+
+  static Future<void> deleteEvent(EventModel event) async {
+    var collectionRef = getEventCollection();
+    var docRef = collectionRef.doc(event.id);
+    await docRef.delete();
+  }
 }
