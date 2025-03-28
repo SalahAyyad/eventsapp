@@ -1,11 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecom/core/models/event_modle.dart';
+import 'package:ecom/core/providers/get_events_provider.dart';
 import 'package:ecom/core/utlis/app_colors.dart';
-import 'package:ecom/core/utlis/firebase_ults.dart';
 import 'package:ecom/core/widget/event_item_widget.dart';
 import 'package:ecom/core/widget/tab_event_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -18,36 +17,17 @@ class _HomeTabState extends State<HomeTab> {
   int selecteddIndex = 0;
   List eventsList = [];
 
-  void getAllEvents() async {
-    QuerySnapshot<EventModel> query =
-        await FirebaseUlts.getEventCollection().get();
-    eventsList = query.docs.map((doc) {
-      return doc.data();
-    }).toList();
-
-    setState(() {});
-  }
-
   @override
   void initState() {
-    getAllEvents();
     super.initState();
-  }
-
-  void getFliterEvents(String fliterEvent) async {
-    Query<EventModel> query = FirebaseUlts.getEventCollection();
-    if (fliterEvent != "All") {
-      query = query.where('category', isEqualTo: fliterEvent);
-    }
-    var events = await query.get();
-    eventsList = events.docs.map((doc) {
-      return doc.data();
-    }).toList();
-    setState(() {});
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<GetEventsProvider>(context, listen: false).getevents();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final eventsProvider = Provider.of<GetEventsProvider>(context);
     List<String> eventNameList = [
       AppLocalizations.of(context)!.all,
       AppLocalizations.of(context)!.sports,
@@ -141,7 +121,7 @@ class _HomeTabState extends State<HomeTab> {
                   onTap: (index) {
                     setState(() {
                       selecteddIndex = index;
-                      getFliterEvents(eventNameList[index]);
+                      eventsProvider.getFliterEvents(eventNameList[index]);
                     });
                   },
                   padding: EdgeInsets.all(10),
@@ -166,11 +146,10 @@ class _HomeTabState extends State<HomeTab> {
         Expanded(
             child: ListView.builder(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                itemCount: eventsList.length,
+                itemCount: eventsProvider.filteredEvents.length,
                 itemBuilder: (_, index) {
                   return EventItemWidget(
-                    event: eventsList[index],
-                    onEventUpdated: getAllEvents,
+                    event: eventsProvider.filteredEvents[index],
                   );
                 }))
       ]),

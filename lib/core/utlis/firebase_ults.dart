@@ -22,7 +22,7 @@ class FirebaseUlts {
   static Future<void> favoriteEvent(EventModel event) async {
     var collectionRef = getEventCollection();
     var docRef = collectionRef.doc(event.id);
-    await docRef.update({'isFavorite': event.isFavorite ? false : true});
+    await docRef.update({'isFavorite': !event.isFavorite});
   }
 
   static Future<void> deleteEvent(EventModel event) async {

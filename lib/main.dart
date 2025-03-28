@@ -2,6 +2,7 @@
 
 import 'package:ecom/core/providers/app_language_provider.dart';
 import 'package:ecom/core/providers/app_theme_provider.dart';
+import 'package:ecom/core/providers/get_events_provider.dart';
 import 'package:ecom/core/utlis/app_theme.dart';
 import 'package:ecom/features/addevent/add_event.dart';
 import 'package:ecom/features/home/home_page.dart';
@@ -24,7 +25,8 @@ void main() async {
       ),
       ChangeNotifierProvider(
         create: (context) => AppThemeProvider(),
-      )
+      ),
+      ChangeNotifierProvider(create: (context) => GetEventsProvider())
     ],
     child: MainApp(),
   ));

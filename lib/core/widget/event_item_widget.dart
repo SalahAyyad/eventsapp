@@ -1,14 +1,17 @@
 import 'package:ecom/core/models/event_modle.dart';
+import 'package:ecom/core/providers/get_events_provider.dart';
 import 'package:ecom/core/utlis/app_colors.dart';
-import 'package:ecom/core/utlis/firebase_ults.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class EventItemWidget extends StatefulWidget {
   final EventModel event;
-  final VoidCallback onEventUpdated;
-  const EventItemWidget(
-      {super.key, required this.event, required this.onEventUpdated});
+
+  const EventItemWidget({
+    super.key,
+    required this.event,
+  });
 
   @override
   State<EventItemWidget> createState() => _EventItemWidgetState();
@@ -17,6 +20,8 @@ class EventItemWidget extends StatefulWidget {
 class _EventItemWidgetState extends State<EventItemWidget> {
   @override
   Widget build(BuildContext context) {
+    final eventprovider = Provider.of<GetEventsProvider>(context);
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       margin: EdgeInsets.only(bottom: 20),
@@ -62,9 +67,7 @@ class _EventItemWidgetState extends State<EventItemWidget> {
                   Spacer(),
                   IconButton(
                       onPressed: () async {
-                        await FirebaseUlts.deleteEvent(widget.event);
-                        widget.onEventUpdated();
-                        setState(() {});
+                        await eventprovider.deleteEvent(widget.event);
                       },
                       icon: Icon(
                         Icons.delete,
@@ -93,9 +96,7 @@ class _EventItemWidgetState extends State<EventItemWidget> {
             IconButton(
                 onPressed: () async {
                   try {
-                    await FirebaseUlts.favoriteEvent(widget.event);
-                    widget.event.isFavorite = !widget.event.isFavorite;
-                    setState(() {});
+                    eventprovider.favEvent(widget.event);
                   } catch (e) {
                     print(e);
                   }
